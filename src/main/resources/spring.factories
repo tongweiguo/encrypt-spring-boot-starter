@@ -1,1 +1,1 @@
-org.springframework.boot.autoconfigure.EnableAutoConfiguration=com.twg.encrypt
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=com.twg.encrypt.EncryptAutoConfiguration

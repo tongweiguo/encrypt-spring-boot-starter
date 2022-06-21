@@ -1,5 +1,6 @@
 package com.twg.encrypt.utils;
 
+
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 /**

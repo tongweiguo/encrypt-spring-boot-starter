@@ -27,11 +27,17 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice;
 @ControllerAdvice
 public class EncryptResponse implements ResponseBodyAdvice<RespBean> {
 
-    private ObjectMapper om = new ObjectMapper();
+    private final ObjectMapper om = new ObjectMapper();
 
     @Autowired
     EncryptProperties properties;
 
+    /**
+     * 该方法用于判断当前请求，是否需要执行beforeBodyWrite方法
+     * @param methodParameter 方法的参数对象
+     * @param aClass http消息转换器类型
+     * @return 返回true表示需要加密
+     */
     @Override
     public boolean supports(MethodParameter methodParameter, Class<? extends HttpMessageConverter<?>> aClass) {
         //方法参数是否有Encrypt注解，如果有表示该接口需要加密处理
@@ -40,25 +46,25 @@ public class EncryptResponse implements ResponseBodyAdvice<RespBean> {
 
     /**
      * 这个方法会在响应之前执行，也就是会在响应之前对数据进行处理再返回
-     * @param respBean
-     * @param methodParameter
-     * @param mediaType
-     * @param aClass
-     * @param serverHttpRequest
-     * @param serverHttpResponse
-     * @return
+     * @param respBean 返回对象
+     * @param methodParameter 方法的参数对象
+     * @param mediaType 方法类型
+     * @param aClass http消息转换器类型
+     * @param serverHttpRequest 服务请求
+     * @param serverHttpResponse 服务响应
+     * @return RespBean返回模型
      */
     @Override
     public RespBean beforeBodyWrite(RespBean respBean, MethodParameter methodParameter, MediaType mediaType, Class<? extends HttpMessageConverter<?>> aClass, ServerHttpRequest serverHttpRequest, ServerHttpResponse serverHttpResponse) {
-
-        System.out.println("响应前置处理");
-
+        //获取加密key
         byte[] key = properties.getKey().getBytes();
         try{
             if(respBean.getMsg() != null){
+                //响应模型的提示信息不为空执行加密重新设置进去
                 respBean.setMsg(AESUtils.encrypt(respBean.getMsg().getBytes(), key));
             }
             if(respBean.getData() != null){
+                //响应模型的数据不为空执行加密重新设置进去
                 respBean.setData(AESUtils.encrypt(om.writeValueAsBytes(respBean.getData()), key));
             }
         } catch(Exception e){
