@@ -12,4 +12,7 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 @ComponentScan("com.twg.encrypt")
 public class EncryptAutoConfiguration {
+    public EncryptAutoConfiguration() {
+        System.out.println("初始化加解密配置类");
+    }
 }
