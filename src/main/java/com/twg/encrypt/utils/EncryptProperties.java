@@ -16,6 +16,8 @@ public class EncryptProperties {
      */
     private final static String DEFAULT_KEY = "com.tong.encrypt";
 
+    private String controller_packages;
+
     private String key = DEFAULT_KEY;
 
     public String getKey() {
@@ -24,5 +26,13 @@ public class EncryptProperties {
 
     public void setKey(String key) {
         this.key = key;
+    }
+
+    public String getController_packages() {
+        return controller_packages;
+    }
+
+    public void setController_packages(String controller_packages) {
+        this.controller_packages = controller_packages;
     }
 }
